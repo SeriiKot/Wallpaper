@@ -10,7 +10,7 @@ float velY[] = new float[amount];
 float r[] = new float[amount];
 
 void setup() {
-  size(400, 800);
+  size(400, 800); // or size(screenWidth, screenHeight);
   colorMode(HSB, 255, 255, 255);
   for(int i = 0; i < amount; i++){
     r[i] = random(2, maxR);
