@@ -1,0 +1,46 @@
+int rad = 200;
+int amount = 20;
+float maxVel = 3;
+float maxR = 8;
+int maxStrokeWeight = 8;
+float x[] = new float[amount];
+float y[] = new float[amount];
+float velX[] = new float[amount];
+float velY[] = new float[amount];
+float r[] = new float[amount];
+
+void setup() {
+  size(400, 800);
+  colorMode(HSB, 255, 255, 255);
+  for(int i = 0; i < amount; i++){
+    r[i] = random(2, maxR);
+    x[i] = random(r[i], width - r[i]);
+    y[i] = random(r[i], height - r[i]);
+    velX[i] = random(2, maxVel) * ((int)random(0, 2) == 0 ? 1 : -1);
+    velY[i] = random(2, maxVel) * ((int)random(0, 2) == 0 ? 1 : -1);
+  }
+}
+
+void draw() {
+  background(20);
+  for(int i = 0; i < amount; i++){
+    x[i] += velX[i];
+    y[i] += velY[i];
+    if(x[i] < r[i] || x[i] > width-r[i]) velX[i] = -velX[i];
+    if(y[i] < r[i] || y[i] > height-r[i]) velY[i] = -velY[i];
+  }
+  for(int i = 0; i < amount; i++){
+    for(int j = 0; j < i; j++){
+      float distance = dist(x[i], y[i], x[j], y[j]);
+      strokeWeight(map(distance, 0, rad, maxStrokeWeight, 0.2));
+      stroke(map(distance, 0, rad, 100, 0), 255, 180);
+      if(distance < rad) line(x[i], y[i], x[j], y[j]);
+    }
+  }
+  for(int i = 0; i < amount; i++){
+    fill(220);
+    noStroke();
+    ellipse(x[i], y[i], r[i]*2, r[i]*2);
+  }
+}
+
